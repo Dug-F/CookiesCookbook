@@ -62,8 +62,8 @@ It took a number of iterations to arrive at this design (which are discussed in 
 The app is extremely simple to use. Run the app and choose one or more ingredients to add.  When you have finished adding ingredients, press Enter and the recipe is saved to a flle.  The next time the app is run, each stored recipe is read from the file and displayed before allowing you to add ingredients for a new recipe.
 
 The format for the file store is set by the value of fileType in Program.cs:
-- if it is set to FileType.Json, the file store will have the suffix.json and be in JSON format
-- if it is set to FileType.Text, the file store will have the suffix.txt and be in plain text format
+- if it is set to FileType.Json, the file store will have the suffix .json and be in JSON format
+- if it is set to FileType.Text, the file store will have the suffix .txt and be in plain text format
 
 [Back to top](#cookie-cookbook-challenge-project)
 
@@ -71,25 +71,25 @@ The format for the file store is set by the value of fileType in Program.cs:
 
 ## What I Learned
 
-For a comparatively simple set of requirements, this has been a very rish learning experience.  The major challenge was to design the class structures to implement a solution usnig the design principles outlined above to give a clean solution.
+For a comparatively simple set of requirements, this has been a very rich learning experience.  The major challenge was to design the class structures to implement a solution using the design principles outlined above to give a clean solution.
 
 ### Types of objects to hold
 
-One of the first considerations was what types of objects to hold in the various collections.  One of the key requirements was that the file store should contain only the ids of the ingredients, not ingredient objects.  This led me to a first iteration where the collection objects contained only the id of the ingredients in order to make reading/writing to/from the file store and reconstituting the receipes easier.  This turned out not to be a good approach since it made everything else more complicated with a higher level of coupling to translate between the id and the ingredient.
+One of the first considerations was what types of objects to hold in the various collections.  One of the key requirements was that the file store should contain only the ids of the ingredients, not serialised ingredient objects.  This led me to a first iteration where the collection objects contained only the id of the ingredients in order to make reading/writing to/from the file store and reconstituting the receipes easier.  This did not turn out to be a good approach since it made other areas of code more complicated and led to a  higher level of coupling to translate between the id and the ingredient.
 
-I therefore changed the approach so that the collections held the whole object required in their collection, e.g. a collection of ingredients holds Ingredient objects, not ids of Ingredient objects.  This was a much cleaner approach is removed a considerable degree of complexity and coupling from the code.
+I changed the approach so that the collection classes held the whole object required in their collection, e.g. a collection of ingredients holds Ingredient objects, not ids of Ingredient objects.  This was a much cleaner approach and removed a considerable degree of complexity and coupling from the code.
 
 ### Whether to use an interface or an abstract base class for the file format converters
 
 My first attempt was to use an interface for the Json and Text file formatters, with both classes implementing the interface.  This worked well until I wanted to substitute them for a common class so that selection between the two formats could be done by a simple variable setting.  Since they were both implementing the interface and had no relationship to each other beyond that, there was no common type I could use.
 
-I then changed the approach to using an abtract base class with abstract methods to be implemented by the concrete formatters.  This worked well and provided a common base class that I could use to represent an abstract formatter elsewhere in the code.
+I changed the approach to using an abtract base class with abstract methods to be implemented by the concrete formatters.  This worked well and provided a common class that I could use to represent any concrete formatter elsewhere in the code.
 
 With hindsight, both formatters have an 'is a' relationship with the base formatter class, indication that the solution was more likely to be an abstract base class.
 
 ### Striking the balance between printing methods inside or external to a class
 
-I changed between these two approaches a few times.  In the end I settled on having class methods that return strings and doing the printing externally to the class.  My thinking in doing this was to give more flexibility in the printing format (rather than effectively hard-coding it inside the class) and to make testing easier.  The approach works and has provided a clean implementation but I am not sure if it is the optimal approach or not.  I think I would tend to use this approach unless there was a specific reason not to.
+I changed between these two approaches a few times.  In the end I settled on having class methods that return strings and printing externally to the class.  My thinking in doing this was to give more flexibility in the printing format (rather than effectively hard-coding it inside the class) and to make testing easier.  The approach works well and has provided a clean implementation but I am not sure if it is the optimal approach or not.  I think I would tend to use this approach unless there was a specific reason not to.
 
 [Back to top](#cookie-cookbook-challenge-project)
 
@@ -112,6 +112,6 @@ Clone the project
   git clone https://github.com/Dug-F/CookiesCookbook.git
 ```
 
-Then open the project in Visual Studio (I was using 2022 Community edition) and run
+Then open the project in Visual Studio (I was using 2022 Community edition) and run.
 
 [Back to top](#cookie-cookbook-challenge-project)
