@@ -36,11 +36,11 @@ The solution is implemented using an object oriented approach.  There are 4 clas
 
 There are then some classes for reading recipe data from and writing it to a file:
 - an abstract base class RecipeStore which defines abstract Read and Write format method signatures
-- the RecipeStore base class also takes a StringTextualRepository object in the constructor, which handles the physical read from and writing to the file
+- the RecipeStore base class also takes a StringTextualRepository object in the constructor, which handles the physical reading from and writing to the file
 - a RecipeStoreJson class which inherits from RecipeStore and implements the Read and Write format methods for a JSON file store
 - a RecipeStoreText class which inherits from RecipeStore and implements the Read and Write format methods for a plain text file store
 
-It took a number of iterations to arrive at this design (which are discussed in the "What I Learned" section below, but this solution successfully implements:
+It took a number of iterations to arrive at this design (which are discussed in the "What I Learned" section below), but this solution successfully implements:
 - SOLID design principles:
   - a single responsibility for all classes (Single Respnsibility Principle)
   - the RecipeStore abstract class allows for other formatters to be created without modification to the existing classes, implementing the open/closed principle
@@ -49,9 +49,9 @@ It took a number of iterations to arrive at this design (which are discussed in 
   - there was no need to implement the interface segregation principle, since there are no specific Interfaces and the class interfaces are simple
 - RecipeStoreJson and RecipeStoreText objects that inherit from and implement abstract methods, implementing polymorphism
 - classes/objects that are loosely coupled and have high cohesion:
-  - generally classes do not rely on implementation methods of other classes
-  - although they are stores of other class objects, the Ingredients, Recipe and Recipes classes do not rely on knowledge of internal methods of the objects that they store, giving low coupling
-  - one exception to this is in Recipe class, where is it depending on knowledge that the passed Ingredients class can access an Ingredient object by Id.  I think this represents a low degree of coupling but it is something that could be improved.
+  - generally classes do not rely on knowledge of methods or properties of other classes
+  - although they are stores of other class objects, the Ingredients, Recipe and Recipes classes do not rely on knowledge of methods or properties of the objects that they store, giving low coupling
+  - one exception to this is in the Recipe class, where it is dependent on knowledge that the passed Ingredients class has an Id property.  I think this represents a low degree of coupling but it is something that could be improved.
 
 [Back to top](#cookie-cookbook-challenge-project)
 
@@ -59,7 +59,7 @@ It took a number of iterations to arrive at this design (which are discussed in 
 
 ## How To Use The App
 
-The app is extremely simple to use. Run the app and choose one or more ingredients to add.  When finished adding ingredients, press Enter and the recipe is saved to a flle.  The next time the app is run, each stored recipe is read from the file and displayed before allowing you to add ingredients for a new recipe.
+The app is extremely simple to use. Run the app and choose one or more ingredients to add.  When you have finished adding ingredients, press Enter and the recipe is saved to a flle.  The next time the app is run, each stored recipe is read from the file and displayed before allowing you to add ingredients for a new recipe.
 
 The format for the file store is set by the value of fileType in Program.cs:
 - if it is set to FileType.Json, the file store will have the suffix.json and be in JSON format
