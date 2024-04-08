@@ -8,6 +8,8 @@
 5. [Tech Stack](#tech-stack)
 6. [How To Run Locally](#how-to-run-locally)
 
+<hr>
+
 ## Problem
 
 As a major part of my journey in learning C#, I have been following Krystyna Ślusarczyk's excellent Ultimate C# Masterclass for 2024.  Module 4 is about object oriented programming: Polymorphism, Inheritance, Interfaces.  At the end of the module is a challenge project, which is to create a Cookie Cookbook.  An overview of the brief is:
@@ -19,6 +21,8 @@ My specfic objectives in this challenge were to:
 - implement clean code, using the object orientation, polymorphism, interface and inheritance principles taught in the module
 - implement using SOLID principles
 - implement low coupling and high cohesion
+
+<hr>
 
 ## Solution
 
@@ -43,13 +47,15 @@ It took a number of iterations to arrive at this design (which are discussed in 
   - the RecipeStoreJson and RecipeStoreText objects substitute for the RecipeStore object, depending on which is configured.  This implements the Liskov substitution principle
   - the RecipeStore class takes a repository object in the constructor, implementing the dependency inversion principle
   - there was no need to implement the interface segregation principle, since there are no specific Interfaces and the class interfaces are simple
-- the RecipeStoreJson and RecipeStoreText objects inherit from and implement abstract methods, implementing polymorphism
-- the classes/objects are loosely coupled and have high cohesion:
-  - generally classes do not rely on implementation details of other classes
+- RecipeStoreJson and RecipeStoreText objects that inherit from and implement abstract methods, implementing polymorphism
+- classes/objects that are loosely coupled and have high cohesion:
+  - generally classes do not rely on implementation methods of other classes
   - although they are stores of other class objects, the Ingredients, Recipe and Recipes classes do not rely on knowledge of internal methods of the objects that they store, giving low coupling
   - one exception to this is in Recipe class, where is it depending on knowledge that the passed Ingredients class can access an Ingredient object by Id.  I think this represents a low degree of coupling but it is something that could be improved.
 
 [Back to top](#cookie-cookbook-challenge-project)
+
+<hr>
 
 ## How To Use The App
 
@@ -60,6 +66,8 @@ The format for the file store is set by the value of fileType in Program.cs:
 - if it is set to FileType.Text, the file store will have the suffix.txt and be in plain text format
 
 [Back to top](#cookie-cookbook-challenge-project)
+
+<hr>
 
 ## What I Learned
 
@@ -85,39 +93,25 @@ I changed between these two approaches a few times.  In the end I settled on hav
 
 [Back to top](#cookie-cookbook-challenge-project)
 
+<hr>
+
 ## Tech Stack
 
-C# .NET
+C# .NET  
 Visual Studio 2022 Community
+
+[Back to top](#cookie-cookbook-challenge-project)
+
+<hr>
 
 ## How To Run Locally
 
 Clone the project
 
 ```bash
-  git clone https://github.com/Dug-F/ExploreSolarSystemTs.git
+  git clone https://github.com/Dug-F/CookiesCookbook.git
 ```
 
-Go to the project directory
+Then open the project in Visual Studio (I was using 2022 Community edition) and run
 
-```bash
-  cd explore-solar-system-ts
-```
-
-Install dependencies
-
-```bash
-  npm install
-```
-
-Start the server
-
-```bash
-  npm run dev
-```
-
-Click on the link shown to invoke the app in your browser
-
-<hr>
-
-[Back to top](#tic-tac-toe-machine-learning-project)
+[Back to top](#cookie-cookbook-challenge-project)
