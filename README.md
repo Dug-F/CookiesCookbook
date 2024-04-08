@@ -28,6 +28,10 @@ My specfic objectives in this challenge were to:
 
 The solution is a console application in C#.
 
+Here is a screenshot:
+
+<img src="/CookieCookbook.PNG" alt="Cookie Cookbook screenshot" width="500"/>
+
 The solution is implemented using an object oriented approach.  There are 4 classes for cookbook-related items:
 - Ingredient: holds the details of a single ingredient
 - Ingredients: holds a collection of Ingredient objects as a reference for available ingredients
