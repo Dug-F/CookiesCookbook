@@ -36,7 +36,7 @@ There are then some classes for reading recipe data from and writing it to a fil
 - a RecipeStoreJson class which inherits from RecipeStore and implements the Read and Write format methods for a JSON file store
 - a RecipeStoreText class which inherits from RecipeStore and implements the Read and Write format methods for a plain text file store
 
-it took a number of iterations to arrive at this design (which are discussed in the "What I Learned" section below, but this solution successfully implements:
+It took a number of iterations to arrive at this design (which are discussed in the "What I Learned" section below, but this solution successfully implements:
 - SOLID design principles:
   - a single responsibility for all classes (Single Respnsibility Principle)
   - the RecipeStore abstract class allows for other formatters to be created without modification to the existing classes, implementing the open/closed principle
@@ -49,27 +49,46 @@ it took a number of iterations to arrive at this design (which are discussed in 
   - although they are stores of other class objects, the Ingredients, Recipe and Recipes classes do not rely on knowledge of internal methods of the objects that they store, giving low coupling
   - one exception to this is in Recipe class, where is it depending on knowledge that the passed Ingredients class can access an Ingredient object by Id.  I think this represents a low degree of coupling but it is something that could be improved.
 
-[Back to top](#tic-tac-toe-machine-learning-project)
+[Back to top](#cookie-cookbook-challenge-project)
 
 ## How To Use The App
 
-The app is extremely simple to use. You play first (you are playing X).  Click on a square and the computer will respond with a move. As in a standard tic tac toe game, the game is over when either player scores 3 in a row or all the squares are filled.
+The app is extremely simple to use. Run the app and choose one or more ingredients to add.  When finished adding ingredients, press Enter and the recipe is saved to a flle.  The next time the app is run, each stored recipe is read from the file and displayed before allowing you to add ingredients for a new recipe.
 
-Try to beat the computer.  It is surprisingly difficult: the rules of tic-tac-toe generally mean that you can only win if your opponent makes a mistake and the computer is not too prone to careless moves like us humans!
+The format for the file store is set by the value of fileType in Program.cs:
+- if it is set to FileType.Json, the file store will have the suffix.json and be in JSON format
+- if it is set to FileType.Text, the file store will have the suffix.txt and be in plain text format
 
-[Back to top](#tic-tac-toe-machine-learning-project)
+[Back to top](#cookie-cookbook-challenge-project)
 
 ## What I Learned
 
-This has been an excellent project for starting to explore machine learning.  The mechanics of the algorithms are relatively simple, but the concepts behind them are profound.
+For a comparatively simple set of requirements, this has been a very rish learning experience.  The major challenge was to design the class structures to implement a solution usnig the design principles outlined above to give a clean solution.
 
-I also reinforced my learning from the higher-or-lower app to re-render only the square clicked on and the square completed in response.  This mechanism is working well and I think it will become my standard approach.
+### Types of objects to hold
 
-[Back to top](#tic-tac-toe-machine-learning-project)
+One of the first considerations was what types of objects to hold in the various collections.  One of the key requirements was that the file store should contain only the ids of the ingredients, not ingredient objects.  This led me to a first iteration where the collection objects contained only the id of the ingredients in order to make reading/writing to/from the file store and reconstituting the receipes easier.  This turned out not to be a good approach since it made everything else more complicated with a higher level of coupling to translate between the id and the ingredient.
+
+I therefore changed the approach so that the collections held the whole object required in their collection, e.g. a collection of ingredients holds Ingredient objects, not ids of Ingredient objects.  This was a much cleaner approach is removed a considerable degree of complexity and coupling from the code.
+
+### Whether to use an interface or an abstract base class for the file format converters
+
+My first attempt was to use an interface for the Json and Text file formatters, with both classes implementing the interface.  This worked well until I wanted to substitute them for a common class so that selection between the two formats could be done by a simple variable setting.  Since they were both implementing the interface and had no relationship to each other beyond that, there was no common type I could use.
+
+I then changed the approach to using an abtract base class with abstract methods to be implemented by the concrete formatters.  This worked well and provided a common base class that I could use to represent an abstract formatter elsewhere in the code.
+
+With hindsight, both formatters have an 'is a' relationship with the base formatter class, indication that the solution was more likely to be an abstract base class.
+
+### Striking the balance between printing methods inside or external to a class
+
+I changed between these two approaches a few times.  In the end I settled on having class methods that return strings and doing the printing externally to the class.  My thinking in doing this was to give more flexibility in the printing format (rather than effectively hard-coding it inside the class) and to make testing easier.  The approach works and has provided a clean implementation but I am not sure if it is the optimal approach or not.  I think I would tend to use this approach unless there was a specific reason not to.
+
+[Back to top](#cookie-cookbook-challenge-project)
 
 ## Tech Stack
 
-React, Javascript, vitest
+C# .NET
+Visual Studio 2022 Community
 
 ## How To Run Locally
 
