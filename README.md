@@ -83,17 +83,15 @@ One of the first considerations was what types of objects to hold in the various
 
 I changed the approach so that the collection classes held the whole object required in their collection, e.g. a collection of ingredients holds Ingredient objects, not ids of Ingredient objects.  This was a much cleaner approach and removed a considerable degree of complexity and coupling from the code.
 
-### Whether to use an interface or an abstract base class for the file format converters
+### Use of Interfaces and Abstract Classes to reduce coupling
 
-My first attempt was to use an interface for the Json and Text file formatters, with both classes implementing the interface.  This worked well until I wanted to substitute them for a common class so that selection between the two formats could be done by a simple variable setting.  Since they were both implementing the interface and had no relationship to each other beyond that, there was no common type I could use.
+In the early stages of attempting to solve the problem I had not fully grasped how to use Interfaces and Abstract Classes to reduce coupling between classes and so increase flexibility and maintainability.  Once I had learned how this approach could be implemented and what the benefits were, this area went from theoretical knowledge to a powerful tool in my toolbox.  The improvement in terms of flexibility and maintainability was a revelation, even if it makes the code slightly more complex.
 
-I changed the approach to using an abtract base class with abstract methods to be implemented by the concrete formatters.  This worked well and provided a common class that I could use to represent any concrete formatter elsewhere in the code.
+### Implementing the single responsibiltiy principle in the main class
 
-With hindsight, both formatters have an 'is a' relationship with the base formatter class, indication that the solution was more likely to be an abstract base class.
+I had not fully grasped that the single responsiblity principle applied to the main class, since it seems that it was inherently orchestrating many disparate activities and the class became a more complex implementation that it should have been.  Part of this in the earlier stages was because (as mentioned above), I had not fully grasped how to use Interfaces and Abstract Classes and so I was moving the complexity of managing classes to the main class.  Once I realised that the single responsibility of the main class was to manage the workflow and also only contain a single reason to change, it became clear that new UserInterface and FileAccess namespaces/classes were needed.  
 
-### Striking the balance between printing methods inside or external to a class
-
-I changed between these two approaches a few times.  In the end I settled on having class methods that return strings and printing externally to the class.  My thinking in doing this was to give more flexibility in the printing format (rather than effectively hard-coding it inside the class) and to make testing easier.  The approach works well and has provided a clean implementation but I am not sure if it is the optimal approach or not.  I think I would tend to use this approach unless there was a specific reason not to.
+Once I had implemented the changes above, I was pleasantly surprised how much easier it became to implement changes to the code without having knock-on impacts.
 
 [Back to top](#cookie-cookbook-challenge-project)
 
